@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SalesAcceleratorLayout</fullName>
+    <fields>Name</fields>
+    <fields>Type</fields>
+    <fields>Site</fields>
+    <fields>Industry</fields>
+    <fields>AnnualRevenue</fields>
+    <fields>OwnerId</fields>
+    <fields>Website</fields>
+    <label>Sales Accelerator Layout</label>
+</CompactLayout>

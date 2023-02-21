@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Active</fullName>
+        <default>true</default>
+        <label>Active</label>
+    </customValue>
+    <customValue>
+        <fullName>Inactive</fullName>
+        <default>false</default>
+        <label>Inactive</label>
+    </customValue>
+    <customValue>
+        <fullName>Locked</fullName>
+        <default>false</default>
+        <label>Locked</label>
+    </customValue>
+    <description>Lifycycle status of the record. Can be adjusted in project scope</description>
+    <masterLabel>Status</masterLabel>
+    <sorted>true</sorted>
+</GlobalValueSet>

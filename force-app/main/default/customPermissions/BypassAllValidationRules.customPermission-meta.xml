@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Users with this custom permissions automatically bypass field validations. Useful for Data Stewards for example</description>
+    <isLicensed>false</isLicensed>
+    <label>Bypass all Validation Rules</label>
+</CustomPermission>
