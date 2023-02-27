@@ -1,0 +1,21 @@
+name: Fail on Dummy Component
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Fail if DummyComponent.cmp exists
+      run: |
+          if [[ -n $(find ./ -name 'DummyComponent.cmp') ]]; then
+              echo "Error: DummyComponent.cmp found!"
+              exit 1
+          fi
