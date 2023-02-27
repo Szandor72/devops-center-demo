@@ -15,7 +15,6 @@ jobs:
       
     - name: Fail if DummyComponent.cmp exists
       run: |
-        if [ -f "./DummyComponent.cmp" ]; then
-          echo "Error: DummyComponent.cmp found!"
-          exit 1
-        fi
+          if [[ -n $(find ./ -name 'DummyComponent.cmp') ]]; then
+              echo "Error: DummyComponent.cmp found!"
+          fi
