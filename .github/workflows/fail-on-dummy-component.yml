@@ -17,4 +17,5 @@ jobs:
       run: |
           if [[ -n $(find ./ -name 'DummyComponent.cmp') ]]; then
               echo "Error: DummyComponent.cmp found!"
+              exit 1
           fi
