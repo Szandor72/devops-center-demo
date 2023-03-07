@@ -41,7 +41,6 @@ jobs:
     name: "Run PMD"
     steps:
       - uses: ./.github/actions/handle-npm-cache
-
       - name: "Run PMD Checks and fail Build"
         #  PMD CLI does not allow for several paths to be scanned
         # because a dx project could use several packageDirectories
