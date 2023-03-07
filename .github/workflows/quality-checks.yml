@@ -40,8 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     name: "Run PMD"
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
       - uses: ./.github/actions/handle-npm-cache
 
       - name: "Run PMD Checks and fail Build"
