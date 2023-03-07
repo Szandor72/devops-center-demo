@@ -98,7 +98,8 @@ jobs:
         # and pmd root directory is set to project directory
         run: |
           find ${{ steps.projectname.outputs.result }} -name '*.cls' > apexClassesToScan.txt
-          dist/pmd-bin/bin/run.sh pmd -d ${{ steps.projectname.outputs.result }} -R ./pmd/ruleset.xml --file-list apexClassesToScan.txt -f text
+          # ~/pmd/bin/run.sh pmd -d ${{ steps.projectname.outputs.result }} -R ./pmd/ruleset.xml --file-list apexClassesToScan.txt -f text
+          ls
 
   commitlint:
     runs-on: ubuntu-latest
