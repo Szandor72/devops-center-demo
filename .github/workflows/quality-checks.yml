@@ -97,6 +97,7 @@ jobs:
         # and pmd root directory is set to project directory
         run: |
           find ${{ steps.projectname.outputs.result }} -name '*.cls' > apexClassesToScan.txt
+          chmod 777 ./node_modules/pmd-bin/dist/pmd-bin/bin/run.sh
           ./node_modules/pmd-bin/dist/pmd-bin/bin/run.sh pmd -d ${{ steps.projectname.outputs.result }} -R ./pmd/ruleset.xml --file-list apexClassesToScan.txt -f text
 
   commitlint:
