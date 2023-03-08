@@ -1,5 +1,5 @@
 public with sharing class DemoClass {
-  public static List<sObject> PermissionQuery() {
+  public static List<sObject> getObjectPerms() {
     return [
       SELECT
         sObjectType,
@@ -16,6 +16,7 @@ public with sharing class DemoClass {
           FROM PermissionSet
           WHERE PermissionSet.Profile.Name = 'System Administrator'
         )
+      WITH SECURITY_ENFORCED
     ];
   }
 }
