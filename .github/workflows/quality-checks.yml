@@ -55,4 +55,4 @@ jobs:
           prettier_options: --write **/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml} --no-error-on-unmatched-pattern
           same_commit: True
           # only_changed: True
-          prettier_plugins: "prettier-plugin-apex, @prettier/plugin-xml"
+          prettier_plugins: "prettier-plugin-apex @prettier/plugin-xml"

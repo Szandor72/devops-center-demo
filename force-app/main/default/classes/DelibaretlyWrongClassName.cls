@@ -12,15 +12,19 @@ public with sharing class DemoClass {
     return [
       SELECT
         sObjectType,
-        PermissionsCreate,        PermissionsRead,PermissionsEdit,
+        PermissionsCreate,
+        PermissionsRead,
+        PermissionsEdit,
         PermissionsDelete,
         PermissionsModifyAllRecords,
         PermissionsViewAllRecords
       FROM ObjectPermissions
       WHERE
         ParentId IN (
-          SELECT Id          FROM PermissionSet
-          WHERE PermissionSet.Profile.Name = 'System Administrator'        )
+          SELECT Id
+          FROM PermissionSet
+          WHERE PermissionSet.Profile.Name = 'System Administrator'
+        )
       WITH SECURITY_ENFORCED
     ];
   }
