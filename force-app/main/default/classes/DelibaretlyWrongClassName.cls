@@ -1,4 +1,13 @@
+/**
+ * @description demo
+ * @author sz
+ * @since today
+ */
 public with sharing class DemoClass {
+  /**
+   * @description was not given
+   * @return  `List<sObject>`
+   */
   public static List<sObject> getObjectPerms() {
     return [
       SELECT
