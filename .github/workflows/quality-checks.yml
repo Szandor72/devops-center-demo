@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - uses: ./.github/actions/handle-npm-cache
+      - uses: ./.github/run-npm-install
       - name: "Run PMD Checks and fail Build"
         #  PMD CLI does not allow for several paths to be scanned
         # because a dx project could use several packageDirectories
