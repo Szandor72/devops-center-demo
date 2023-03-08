@@ -12,26 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-
-      - name: Cache node modules
-        id: cache-nodemodules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          # caching node_modules
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: |
-          npm ci
-
+      - uses: ./.github/run-npm-install
       - name: Run eslint
         run: |
           npm run lint
@@ -51,6 +32,7 @@ jobs:
         run: |
           find ${{ steps.projectname.outputs.result }} -name '*.cls' > apexClassesToScan.txt
           npx pmd -d ${{ steps.projectname.outputs.result }} -R ./.pmd/ruleset.xml --file-list apexClassesToScan.txt -f text
+        # TODO store results in a file and upload as artifact?
 
   commitlint:
     runs-on: ubuntu-latest
@@ -62,31 +44,15 @@ jobs:
       - uses: wagoid/commitlint-github-action@v5
 
   prettier-code-formatting:
-    name: "Run Prettier"
+    name: "Format Code with Prettier"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-
-      - name: Cache node modules
-        id: cache-nodemodules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
         with:
-          # caching node_modules
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
-        run: |
-          npm ci
-
-      - name: Run pettier:check to enforce code formatting
-        run: |
-          npm run prettier:check
+          fetch-depth: 0
+      - uses: creyD/prettier_action@v4.3
+        with:
+          options: --write
+          same-commit: True
+          only_changed: True
+          prettier_plugins: prettier-plugin-apex
