@@ -20,8 +20,7 @@ public with sharing class DemoClass {
       WHERE
         ParentId IN (
           SELECT Id          FROM PermissionSet
-          WHERE PermissionSet.Profile.Name = 'System Administrator'
-        )
+          WHERE PermissionSet.Profile.Name = 'System Administrator'        )
       WITH SECURITY_ENFORCED
     ];
   }

@@ -42,8 +42,8 @@ jobs:
           fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v5
 
-  prettier-code-formatting:
-    name: "Format Code with Prettier"
+  prettier-formatting:
+    name: "Format with Prettier"
     needs: [eslint, pmd-code-analysis, commitlint]
     runs-on: ubuntu-latest
     steps:
