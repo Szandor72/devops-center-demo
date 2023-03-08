@@ -11,7 +11,6 @@ jobs:
     name: "Run Eslint"
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
       - uses: ./.github/run-npm-install
       - name: Run eslint
         run: |
@@ -45,6 +44,7 @@ jobs:
 
   prettier-code-formatting:
     name: "Format Code with Prettier"
+    needs: [eslint, pmd-code-analysis, commitlint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -52,7 +52,7 @@ jobs:
           fetch-depth: 0
       - uses: creyD/prettier_action@v4.3
         with:
-          options: --write
+          options: --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"
           same-commit: True
           only_changed: True
           prettier_plugins: prettier-plugin-apex
