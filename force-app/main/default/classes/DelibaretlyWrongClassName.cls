@@ -12,9 +12,7 @@ public with sharing class DemoClass {
     return [
       SELECT
         sObjectType,
-        PermissionsCreate,
-        PermissionsRead,
-        PermissionsEdit,
+        PermissionsCreate,        PermissionsRead,        PermissionsEdit,
         PermissionsDelete,
         PermissionsModifyAllRecords,
         PermissionsViewAllRecords

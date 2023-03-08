@@ -53,6 +53,6 @@ jobs:
       - uses: creyD/prettier_action@v4.3
         with:
           options: --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"
-          same-commit: True
+          same_commit: True
           only_changed: True
           prettier_plugins: prettier-plugin-apex
