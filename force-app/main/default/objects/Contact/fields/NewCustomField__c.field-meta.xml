@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NewCustomField__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>A Custom Field</description>
+    <externalId>false</externalId>
+    <inlineHelpText>A Custom Field</inlineHelpText>
+    <label>NewCustomField</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>
