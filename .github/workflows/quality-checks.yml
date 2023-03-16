@@ -1,0 +1,11 @@
+name: Quality Checks
+
+on:
+    push:
+        branches:
+            - '*'
+
+jobs:
+    quality-checks:
+        name: 'Run Quality Checks'
+        uses: 'Szandor72/devops-center-actions/.github/workflows/quality-checks.yml@main'
