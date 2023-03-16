@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -34,7 +34,7 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Is_No_VIP</name>
+        <name>IsNoVIP</name>
         <label>Is No VIP</label>
         <locationX>314</locationX>
         <locationY>815</locationY>
@@ -81,7 +81,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Is_No_VIP</targetReference>
+                <targetReference>IsNoVIP</targetReference>
             </connector>
             <label>AccountHasNoVIPContacts</label>
         </rules>
