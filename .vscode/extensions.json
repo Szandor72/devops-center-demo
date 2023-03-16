@@ -1,0 +1,17 @@
+{
+    "recommendations": [
+        "salesforce.salesforcedx-vscode-expanded",
+        "salesforce.salesforcedx-vscode-soql",
+        "redhat.vscode-xml",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "financialforce.lana",
+        "kevinjones.apex-assist",
+        "chuckjonas.apex-pmd",
+        "formulahendry.auto-rename-tag",
+        "eamodio.gitlens",
+        "wayou.vscode-todo-highlight",
+        "gruntfuggly.todo-tree",
+        "PeterWeinberg.apexdox-vs-code"
+    ]
+}
