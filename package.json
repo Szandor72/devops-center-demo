@@ -22,7 +22,7 @@
         "@salesforce/eslint-plugin-aura": "^2.0.0",
         "@salesforce/eslint-plugin-lightning": "^1.0.0",
         "@salesforce/sfdx-lwc-jest": "^1.1.0",
-        "devops-center-local-config-files": "^0.1.1-9",
+        "devops-center-local-config-files": "^0.1.1-10",
         "eslint": "^8.11.0",
         "eslint-plugin-import": "^2.25.4",
         "eslint-plugin-jest": "^26.1.2",
