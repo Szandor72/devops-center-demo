@@ -31,5 +31,5 @@ jobs:
                   integration_sandbox
             - name: Validate deployment and run local tests
               run:
-                  sfdx force source deploy --check-only --wait 120 --testlevel=RunLocalTests -u
+                  sfdx force source deploy --source-path force-app --checkonly --wait 120 --testlevel=RunLocalTests -u
                   integration_sandbox
