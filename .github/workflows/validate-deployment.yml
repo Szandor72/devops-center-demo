@@ -15,15 +15,21 @@ jobs:
         steps:
             - uses: actions/checkout@v3
               # Store secret for dev hub
+
+            - name: 'Install Salesforce CLI'
+              run: |
+                  npm install sfdx-cli --location=global
+                  sfdx --version
+
             - name: 'Populate auth file with DEVHUB_SFDX_URL secret'
               run: |
                   echo ${{ secrets.INTEGRATION_SANDBOX_SFDX_URL}} > ./INTEGRATION_SANDBOX_SFDX_URL.auth
 
-            - uses: forcedotcom/salesforcedx-actions@master
-              with:
-                  args:
-                      'sfdx force:auth:sfdxurl:store -f ./INTEGRATION_SANDBOX_SFDX_URL.auth -d -a
-                      integration_sandbox'
-            - uses: forcedotcom/salesforcedx-actions@master
-              with:
-                  args: 'sfdx force source deploy --check-only --wait 120 --testlevel=RunLocalTests'
+            - name: Authenticate against integration sandbox
+              run:
+                  sfdx force:auth:sfdxurl:store -f ./INTEGRATION_SANDBOX_SFDX_URL.auth -d -a
+                  integration_sandbox
+            - name: Validate deployment and run local tests
+              run:
+                  sfdx force source deploy --check-only --wait 120 --testlevel=RunLocalTests -u
+                  integration_sandbox
