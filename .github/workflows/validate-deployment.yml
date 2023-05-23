@@ -14,8 +14,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-              # Store secret for dev hub
-
             - name: 'Install Salesforce CLI'
               run: |
                   npm install sfdx-cli --location=global
@@ -31,5 +29,5 @@ jobs:
                   integration_sandbox
             - name: Validate deployment and run local tests
               run:
-                  sfdx force source deploy --check-only --wait 120 --testlevel=RunLocalTests -u
-                  integration_sandbox
+                  sfdx force source deploy --sourcepath force-app --checkonly --wait 120
+                  --testlevel=RunLocalTests -u integration_sandbox
