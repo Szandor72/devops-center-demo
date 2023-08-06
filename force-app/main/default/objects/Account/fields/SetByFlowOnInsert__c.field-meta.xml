@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SetByFlowOnInsert__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Will be updated by a flow</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Will be updated by a flow</inlineHelpText>
+    <label>SetByFlowOnInsert</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>
