@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>IsVIP__c</fullName>
-    <defaultValue>false</defaultValue>
-    <description>Will update Accounts VIP status</description>
+    <fullName>RichText__c</fullName>
     <externalId>false</externalId>
-    <label>VIP</label>
+    <label>Rich Text</label>
+    <length>32768</length>
     <trackFeedHistory>false</trackFeedHistory>
-    <type>Checkbox</type>
+    <type>Html</type>
+    <visibleLines>25</visibleLines>
 </CustomField>
