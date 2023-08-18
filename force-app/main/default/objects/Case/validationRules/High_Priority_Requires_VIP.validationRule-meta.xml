@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>High_Priority_Requires_VIP</fullName>
+    <active>true</active>
+    <description>High_Priority_Requires_VIP</description>
+    <errorConditionFormula>IsVIP__c == false &amp;&amp; TEXT(Priority)==&apos;High&apos;</errorConditionFormula>
+    <errorDisplayField>Priority</errorDisplayField>
+    <errorMessage>Ony Vips can have High Priority Cases</errorMessage>
+</ValidationRule>
