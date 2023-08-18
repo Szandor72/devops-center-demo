@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email</fullName>
+    <businessStatus>Active</businessStatus>
+    <complianceGroup>DSGVO</complianceGroup>
+    <description>Lead&apos;s Email</description>
+    <inlineHelpText>Lead&apos;s Email</inlineHelpText>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+</CustomField>
