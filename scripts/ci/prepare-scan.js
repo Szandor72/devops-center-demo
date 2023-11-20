@@ -19,8 +19,10 @@ async function getRangeForDiff() {
         const headRef = process.env.GITHUB_HEAD_REF;
 
         if (baseRef && headRef) {
-            // For PRs, compare head ref with the base ref
-            return `${baseRef}...${headRef}`;
+            // Use full ref specifiers for remote branches
+            const fullBaseRef = `refs/remotes/origin/${baseRef}`;
+            const fullHeadRef = `refs/remotes/origin/${headRef}`;
+            return `${fullBaseRef}...${fullHeadRef}`;
         } else {
             // For direct pushes or other scenarios
             const currentCommit = process.env.GITHUB_SHA;
