@@ -3,6 +3,9 @@ import execa from 'execa';
 import fsExtra from 'fs-extra';
 import path from 'path';
 
+//Only files in force-app need to be considered for sfdx scanner
+const FILE_PATH_IDENTIFIER = 'force-app';
+
 /**
  * Determines the commit range for git diff based on GitHub Actions environment variables.
  * @returns {string} The commit range.
@@ -79,6 +82,15 @@ async function getAddedFiles(range) {
 }
 
 /**
+ * Filters the files to include only those within the 'force-app' path.
+ * @param {string[]} files - An array of file paths.
+ * @returns {string[]} Filtered file paths.
+ */
+function filterFiles(files) {
+    return files.filter(file => file.includes(FILE_PATH_IDENTIFIER));
+}
+
+/**
  * Copies files to the specified destination directory.
  * @param {string[]} files - An array of file paths.
  * @param {string} destination - The destination directory.
@@ -126,8 +138,8 @@ async function main() {
         const modifiedFiles = await getModifiedFiles(range);
         const addedFiles = await getAddedFiles(range);
 
-        await copyFiles(modifiedFiles, 'modified-files-to-scan');
-        await copyFiles(addedFiles, 'new-files-to-scan');
+        await copyFiles(filterFiles(modifiedFiles), 'modified-files-to-scan');
+        await copyFiles(filterFiles(addedFiles), 'new-files-to-scan');
 
         // For testing purposes, print the files in the directories
         console.log('**MODIFIED FILES**');
