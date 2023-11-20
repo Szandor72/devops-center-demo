@@ -1,9 +1,12 @@
 name: SF(DX) Scanner
 
 on:
-    push:
+    pull_request:
+        types: [opened, synchronize, reopened]
         branches:
-            - 'scanner/*'
+            - integration
+        paths:
+            - 'force-app/**'
 
 jobs:
     quality-checks:
