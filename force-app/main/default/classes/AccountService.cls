@@ -14,7 +14,7 @@ public class AccountService {
     public void deleteAccount() {
         List<Account> accounts = [SELECT Id FROM Account]; // PMD: Avoid SOQL queries inside loops
         for (Account a : accounts) {
-            delete a; // PMD: Avoid DML statements inside loops
+            delete a; // PMD: Avoid DML statements inside loops.
         }
     }
 }
