@@ -122,11 +122,11 @@ async function processLegacyFiles(modifiedFiles, legacyFiles) {
 
 /**
  * Prints the full paths of legacy files.
- * @param {string[]} legacyFiles - Array of legacy file paths.
+ * @param {string[]} fileList - Array of legacy file paths.
  */
-async function printLegacyFiles(legacyFiles) {
+async function printFiles(fileList) {
     try {
-        for (const file of legacyFiles) {
+        for (const file of fileList) {
             console.log(path.resolve(file));
         }
     } catch (error) {
@@ -150,8 +150,14 @@ async function main() {
 
         const processedLegacyFiles = await processLegacyFiles(filteredFiles, legacyFiles);
 
+        console.log('**MODIFIED FILES**');
+        await printFiles(modifiedFiles);
+
+        console.log('**FILTERED FILES**');
+        await printFiles(filteredFiles);
+
         console.log('**LEGACY FILES**');
-        await printLegacyFiles(processedLegacyFiles);
+        await printFiles(processedLegacyFiles);
 
         console.log('File processing complete.');
     } catch (error) {
