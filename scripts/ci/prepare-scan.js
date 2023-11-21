@@ -49,7 +49,7 @@ async function getRangeForDiff() {
  */
 async function getModifiedFiles(range) {
     try {
-        const { stdout } = await execa.command(`git diff --name-only --diff-filter=MCR ${range}`);
+        const { stdout } = await execa.command(`git diff --name-only --diff-filter=AMCR\ ${range}`);
         return stdout.split('\n');
     } catch (error) {
         console.error('Error retrieving modified files:', error);
