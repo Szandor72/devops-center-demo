@@ -7,7 +7,7 @@ import path from 'path';
 const FILE_PATH_IDENTIFIER = 'force-app';
 
 // List of legacy code files
-const LEGACY_METADATA_FILE_LIST = 'legacy-metadata-files.txt';
+const LEGACY_METADATA_FILE_LIST = './ci/legacy-metadata-files.txt';
 const LEGACY_DESTINATION_DIR = 'legacy-metadata';
 
 /**
