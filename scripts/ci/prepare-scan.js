@@ -3,13 +3,21 @@ import execa from 'execa';
 import fsExtra from 'fs-extra';
 import path from 'path';
 
-//Only files in force-app need to be considered for sfdx scanner
+// File path identifier for Salesforce files
 const FILE_PATH_IDENTIFIER = 'force-app';
 
+// List of legacy code files
+const LEGACY_METADATA_FILE_LIST = 'legacy-metadata-files.txt';
+const LEGACY_DESTINATION_DIR = 'legacy-metadata';
+
 /**
- * Determines the commit range for git diff based on GitHub Actions environment variables.
- * @returns {string} The commit range.
+ * Determines if the script is running in the context of a Pull Request.
+ * @returns {boolean} True if in PR context, false otherwise.
  */
+function isPullRequest() {
+    return process.env.GITHUB_EVENT_NAME === 'pull_request';
+}
+
 /**
  * Determines the commit range for git diff based on GitHub Actions environment variables.
  * If the necessary environment variables are not available, it falls back to a default behavior.
@@ -17,31 +25,16 @@ const FILE_PATH_IDENTIFIER = 'force-app';
  */
 async function getRangeForDiff() {
     try {
-        // Check for pull request environment variables
         const baseRef = process.env.GITHUB_BASE_REF;
         const headRef = process.env.GITHUB_HEAD_REF;
 
         if (baseRef && headRef) {
-            // Use full ref specifiers for remote branches
             const fullBaseRef = `refs/remotes/origin/${baseRef}`;
             const fullHeadRef = `refs/remotes/origin/${headRef}`;
             return `${fullBaseRef}...${fullHeadRef}`;
         } else {
-            // For direct pushes or other scenarios
-            const currentCommit = process.env.GITHUB_SHA;
-            const previousCommit = await execa
-                .command('git rev-parse HEAD^')
-                .then(result => result.stdout)
-                .catch(() => '');
-
-            if (previousCommit && currentCommit) {
-                // Compare with the previous commit if available
-                return `${previousCommit}...${currentCommit}`;
-            } else {
-                // Fall back to comparing the last two commits
-                console.warn('Falling back to the last two commits for diff range.');
-                return 'HEAD~1...HEAD';
-            }
+            console.warn('Not in a PR context. Exiting script.');
+            process.exit(0);
         }
     } catch (error) {
         console.error('Error determining the commit range:', error);
@@ -50,33 +43,16 @@ async function getRangeForDiff() {
 }
 
 /**
- * Gets the modified files (excluding added files) within the specified commit range.
+ * Gets the modified files within the specified commit range.
  * @param {string} range - The commit range.
  * @returns {Promise<string[]>} A list of modified files.
  */
 async function getModifiedFiles(range) {
     try {
-        // Only include Modified, Copied, and Renamed files
         const { stdout } = await execa.command(`git diff --name-only --diff-filter=MCR ${range}`);
         return stdout.split('\n');
     } catch (error) {
         console.error('Error retrieving modified files:', error);
-        throw error;
-    }
-}
-
-/**
- * Gets the added files within the specified commit range.
- * @param {string} range - The commit range.
- * @returns {Promise<string[]>} A list of added files.
- */
-async function getAddedFiles(range) {
-    try {
-        // Only include Added files
-        const { stdout } = await execa.command(`git diff --name-only --diff-filter=A ${range}`);
-        return stdout.split('\n');
-    } catch (error) {
-        console.error('Error retrieving added files:', error);
         throw error;
     }
 }
@@ -91,42 +67,70 @@ function filterFiles(files) {
 }
 
 /**
- * Copies files to the specified destination directory.
- * @param {string[]} files - An array of file paths.
- * @param {string} destination - The destination directory.
+ * Reads the legacy code file list and returns it as an array.
+ * @returns {Promise<string[]>} Array of legacy code file paths.
  */
-async function copyFiles(files, destination) {
+async function readLegacyCodeFileList() {
     try {
-        await fsExtra.ensureDir(destination); // Ensure the destination directory exists
-        for (const file of files) {
-            const destPath = path.join(destination, file);
-            await fsExtra.ensureDir(path.dirname(destPath));
-            await fsExtra.copy(file, destPath);
-        }
+        const data = await fsExtra.readFile(LEGACY_METADATA_FILE_LIST, 'utf8');
+        return data.split('\n');
     } catch (error) {
-        console.error('Error copying files:', error);
+        console.error('Error reading legacy code file list:', error);
         throw error;
     }
 }
 
-async function printFilesInDirectory(directory, parentPath = '') {
+/**
+ * Moves a file to a new destination, ensuring the destination directory exists.
+ * @param {string} source - Source file path.
+ * @param {string} destination - Destination file path.
+ */
+async function moveFile(source, destination) {
     try {
-        const filesAndDirs = await fsExtra.readdir(directory);
+        await fsExtra.ensureDir(path.dirname(destination));
+        await fsExtra.move(source, destination);
+    } catch (error) {
+        console.error(`Error moving file ${source} to ${destination}:`, error);
+        throw error;
+    }
+}
 
-        for (const fileOrDir of filesAndDirs) {
-            const fullPath = path.join(directory, fileOrDir);
-            const stat = await fsExtra.stat(fullPath);
+/**
+ * Processes modified files based on legacy code list. Moves legacy files to a specified directory.
+ * Non-legacy files are left untouched.
+ * @param {string[]} modifiedFiles - Array of modified file paths.
+ * @param {string[]} legacyFiles - Array of legacy file paths.
+ */
+async function processLegacyFiles(modifiedFiles, legacyFiles) {
+    const processedLegacyFiles = [];
 
-            if (stat.isDirectory()) {
-                // If it's a directory, recurse into it
-                await printFilesInDirectory(fullPath, path.join(parentPath, fileOrDir));
-            } else {
-                // Print the file path, prepended with parent paths
-                console.log(path.join(parentPath, fileOrDir));
+    try {
+        for (const file of files) {
+            if (legacyFiles.includes(file)) {
+                const destPath = path.join(LEGACY_DESTINATION_DIR, file);
+                await moveFile(file, destPath);
+                processedLegacyFiles.push(file);
             }
         }
     } catch (error) {
-        console.error(`Error listing files in directory ${directory}:`, error);
+        console.error('Error processing files:', error);
+        throw error;
+    }
+
+    return processedLegacyFiles;
+}
+
+/**
+ * Prints the full paths of legacy files.
+ * @param {string[]} legacyFiles - Array of legacy file paths.
+ */
+async function printLegacyFiles(legacyFiles) {
+    try {
+        for (const file of legacyFiles) {
+            console.log(path.resolve(file));
+        }
+    } catch (error) {
+        console.error('Error printing legacy files:', error);
         throw error;
     }
 }
@@ -134,19 +138,20 @@ async function printFilesInDirectory(directory, parentPath = '') {
 // Main execution function
 async function main() {
     try {
+        if (!isPullRequest()) {
+            console.info('Script is not running in a Pull Request context. Exiting.');
+            return;
+        }
+
         const range = await getRangeForDiff();
         const modifiedFiles = await getModifiedFiles(range);
-        const addedFiles = await getAddedFiles(range);
+        const filteredFiles = filterFiles(modifiedFiles);
+        const legacyFiles = await readLegacyCodeFileList();
 
-        await copyFiles(filterFiles(modifiedFiles), 'modified-files-to-scan');
-        await copyFiles(filterFiles(addedFiles), 'new-files-to-scan');
+        const processedLegacyFiles = await processLegacyFiles(filteredFiles, legacyFiles);
 
-        // For testing purposes, print the files in the directories
-        console.log('**MODIFIED FILES**');
-        await printFilesInDirectory('modified-files-to-scan');
-
-        console.log('**NEW FILES**');
-        await printFilesInDirectory('new-files-to-scan');
+        console.log('**LEGACY FILES**');
+        await printLegacyFiles(processedLegacyFiles);
 
         console.log('File processing complete.');
     } catch (error) {
