@@ -3,8 +3,8 @@ name: SF(DX) Scanner
 on:
     pull_request:
         types: [opened, synchronize, reopened]
-        # branches:
-        #     - integration
+        branches:
+            - integration
         # paths:
         #     - 'force-app/**'
 

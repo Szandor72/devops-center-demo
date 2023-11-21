@@ -105,7 +105,7 @@ async function processLegacyFiles(modifiedFiles, legacyFiles) {
     const processedLegacyFiles = [];
 
     try {
-        for (const file of files) {
+        for (const file of modifiedFiles) {
             if (legacyFiles.includes(file)) {
                 const destPath = path.join(LEGACY_DESTINATION_DIR, file);
                 await moveFile(file, destPath);
@@ -156,6 +156,7 @@ async function main() {
         console.log('File processing complete.');
     } catch (error) {
         console.error('Error in main execution:', error);
+        process.exit(1);
     }
 }
 
