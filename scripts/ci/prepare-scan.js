@@ -89,6 +89,7 @@ async function moveFile(source, destination) {
     try {
         await fsExtra.ensureDir(path.dirname(destination));
         await fsExtra.move(source, destination);
+        return destination;
     } catch (error) {
         console.error(`Error moving file ${source} to ${destination}:`, error);
         throw error;
@@ -108,8 +109,8 @@ async function processLegacyFiles(modifiedFiles, legacyFiles) {
         for (const file of modifiedFiles) {
             if (legacyFiles.includes(file)) {
                 const destPath = path.join(LEGACY_DESTINATION_DIR, file);
-                await moveFile(file, destPath);
-                processedLegacyFiles.push(file);
+                const newDestination = await moveFile(file, destPath);
+                processedLegacyFiles.push(newDestination);
             }
         }
     } catch (error) {
