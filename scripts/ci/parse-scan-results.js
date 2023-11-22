@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs';
+import path from 'path';
 import { AsyncParser } from '@json2csv/node';
 import * as core from '@actions/core';
 
@@ -90,6 +91,33 @@ async function createAnnotations(flattenedData) {
 }
 
 /**
+ * Will upload the CSV file to Salesforce as a ContentVersion record
+ * Authentication is handled in github action yml file
+ * @param {*} csvFilePath
+ */
+async function uploadCsvToSalesforce(csvFilePath) {
+    try {
+        // Read CSV file
+        const csvContent = await fs.readFile(csvFilePath, 'utf8');
+
+        // Convert to Base64
+        const base64String = Buffer.from(csvContent).toString('base64');
+
+        // Extracting the file name without the extension
+        const title = path.basename(csvFilePath, path.extname(csvFilePath));
+
+        // Constructing the Salesforce CLI command
+        const command = `sf data record create --sobject ContentVersion --values "Title='${title}' PathOnClient='${csvFilePath}' VersionData=${base64String}"`;
+
+        // Execute the command
+        const { stdout } = await execa.command(command);
+        console.log('Upload successful:', stdout);
+    } catch (error) {
+        console.error('Error uploading CSV to Salesforce:', error);
+    }
+}
+
+/**
  * Main function to process scan results.
  * @param {string} jsonFilePath - Path to the JSON file.
  * @param {string} csvFilePath - Path to the output CSV file.
@@ -104,6 +132,7 @@ async function processScanResults(jsonFilePath, csvFilePath) {
         if (jsonFilePath.includes('legacy')) {
             await convertJsonToCsv(flattenedData, csvFilePath);
             await createGithubTable(flattenedData);
+            await uploadCsvToSalesforce(csvFilePath);
         } else {
             await createAnnotations(flattenedData);
         }
