@@ -74,7 +74,7 @@ async function createGithubTable(jsonFilePath) {
             const rowValues = Object.entries(row).reduce(
                 (acc, [key, value]) => {
                     if (key === 'ruleName') {
-                        acc.push(`[${value}](${row.url})`); // Transforming ruleName into a Markdown link
+                        acc.push(`<a href='${row.url}'>${value}</a>`); // Transforming ruleName into anchor link
                     } else if (!['endLine', 'endColumn', 'url'].includes(key)) {
                         acc.push(value.toString());
                     }
