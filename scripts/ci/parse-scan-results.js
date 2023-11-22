@@ -52,8 +52,8 @@ async function createGithubTable(flattenedData) {
                 if (key === 'ruleName') {
                     acc.push(`<a href='${row.url}'>${value}</a>`);
                 } else if (key === 'severity') {
-                    // Combine severity and normalizedSeverity
-                    acc.push(value.toString() + ' (' + row.normalizedSeverity.toString() + ')');
+                    // Combine replace severity with normalizedSeverity value
+                    acc.push(row.normalizedSeverity.toString());
                 } else if (!['endLine', 'endColumn', 'url', 'normalizedSeverity'].includes(key)) {
                     acc.push(value.toString());
                 }
