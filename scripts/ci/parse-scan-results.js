@@ -43,7 +43,7 @@ async function createGithubTable(flattenedData) {
             }
             return acc;
         },
-        [{ data: ':x:', header: true }],
+        [{ data: 'PASSED?', header: true }],
     );
 
     const tableRows = flattenedData.map(row => {
