@@ -108,10 +108,19 @@ async function uploadCsvToSalesforce(csvFilePath) {
         const title = path.basename(csvFilePath, path.extname(csvFilePath));
 
         // Constructing the Salesforce CLI command
-        const command = `sf data record create --sobject ContentVersion --values "Title='${title}' PathOnClient='${csvFilePath}' VersionData='${base64String}'"`;
-
+        const command = [
+            'sf',
+            'data',
+            'record',
+            'create',
+            '--sobject',
+            'ContentVersion',
+            '--values',
+            `Title='${title}' PathOnClient='${csvFilePath}' VersionData='${base64String}'`,
+        ];
         // Execute the command
-        const { stdout } = await execa.command(command);
+        const { stdout } = await execa(command[0], command.slice(1));
+
         console.log('Upload successful:', stdout);
     } catch (error) {
         console.error('Error uploading CSV to Salesforce:', error);
