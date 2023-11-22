@@ -111,7 +111,7 @@ function extractPrNumber(githubRef) {
 async function queryExistingResultFiles(prNumber, hash) {
     try {
         const soqlQuery = `SELECT id FROM ContentVersion WHERE Title LIKE '%PR${prNumber}%' AND title LIKE '%${hash}%'`;
-        const queryCommand = `sf query --query "${soqlQuery}" --resultformat json`;
+        const queryCommand = `sf data query --query "${soqlQuery}" --resultformat json`;
 
         const { stdout } = await execa.command(queryCommand);
         const result = JSON.parse(stdout);
