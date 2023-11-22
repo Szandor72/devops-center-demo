@@ -1,4 +1,5 @@
 import execa from 'execa';
+import crypto from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { AsyncParser } from '@json2csv/node';
