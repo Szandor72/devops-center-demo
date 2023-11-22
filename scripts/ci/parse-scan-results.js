@@ -52,30 +52,27 @@ async function convertJsonToCsv(jsonFilePath, csvFilePath) {
  * Creates a markdown table from JSON data and adds it to GitHub Step Summary.
  * @param {string} jsonFilePath - Path to the JSON file.
  */
-async function createMarkdownTableFromJson(jsonFilePath) {
+async function createGithubTable(jsonFilePath) {
     try {
         const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
         const dataArray = JSON.parse(jsonData);
         const flattenedData = flattenJsonData(dataArray);
 
-        let markdownTable = `| :x: | ${Object.keys(flattenedData[0]).join(' | ')} |\n`;
-        markdownTable += `| --- | ${Object.keys(flattenedData[0])
-            .map(() => '---')
-            .join(' | ')} |\n`;
+        // Generating headers from the keys of the first object in flattenedData
+        const headers = Object.keys(flattenedData[0]).map(key => ({ data: key, header: true }));
 
-        for (const row of flattenedData) {
-            const rowData = Object.values(row).join(' | ');
-            markdownTable += `| :x: | ${rowData} |\n`; // Prefixing each row with a red X icon
-        }
+        // Generating table rows from flattenedData
+        const tableRows = flattenedData.map(row => Object.values(row).map(cell => cell.toString()));
 
+        // Creating the GitHub table
         await core.summary
             .addHeading('SF(DX) Scanner Results')
-            .addTable(markdownTable, 'markdown')
+            .addTable([headers, ...tableRows])
             .write();
 
-        console.log('Markdown table added to GitHub Step Summary');
+        console.log('GitHub table added to GitHub Step Summary');
     } catch (error) {
-        console.error('Error during Markdown table creation:', error);
+        console.error('Error during GitHub table creation:', error);
     }
 }
 
@@ -83,4 +80,4 @@ const jsonFilePath = process.argv[2] || 'scan-results.json';
 const csvFilePath = process.argv[3] || 'scan-results.csv';
 
 convertJsonToCsv(jsonFilePath, csvFilePath);
-createMarkdownTableFromJson(jsonFilePath);
+createGithubTable(jsonFilePath);
