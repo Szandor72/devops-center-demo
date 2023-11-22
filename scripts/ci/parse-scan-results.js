@@ -70,7 +70,7 @@ async function createMarkdownTableFromJson(jsonFilePath) {
 
         await core.summary
             .addHeading('SF(DX) Scanner Results')
-            .addRaw(markdownTable, 'markdown')
+            .addTable(markdownTable, 'markdown')
             .write();
 
         console.log('Markdown table added to GitHub Step Summary');
