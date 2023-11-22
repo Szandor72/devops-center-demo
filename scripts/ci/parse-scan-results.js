@@ -103,6 +103,27 @@ function extractPrNumber(githubRef) {
 }
 
 /**
+ * Queries Salesforce for an existing ContentVersion record.
+ * @param {string} prNumber
+ * @param {string} hash
+ * @returns {Promise<boolean>} Returns true if a matching record is found.
+ */
+async function queryExistingResultFiles(prNumber, hash) {
+    try {
+        const soqlQuery = `SELECT id FROM ContentVersion WHERE Title LIKE '%PR${prNumber}%' AND title LIKE '%${hash}%'`;
+        const queryCommand = `sf query --query "${soqlQuery}" --resultformat json`;
+
+        const { stdout } = await execa.command(queryCommand);
+        const result = JSON.parse(stdout);
+
+        return result.records && result.records.length > 0;
+    } catch (error) {
+        console.error('Error querying Salesforce:', error);
+        throw error; // Rethrow to handle in the calling function
+    }
+}
+
+/**
  * Will upload the CSV file to Salesforce as a ContentVersion record
  * Authentication is handled in github action yml file
  * @param {*} csvFilePath
@@ -117,10 +138,16 @@ async function uploadCsvToSalesforce(csvFilePath) {
         }
 
         const csvContent = await fs.readFile(csvFilePath, 'utf8');
+        const hash = crypto.createHash('md5').update(csvContent).digest('hex');
+
+        const reportAlreadyExists = queryExistingResultFiles(prNumber, hash);
+
+        if (reportAlreadyExists) {
+            console.log('Report already exists in Salesforce. Skipping upload.');
+            return;
+        }
 
         const csvContentBase64 = Buffer.from(csvContent).toString('base64');
-
-        const hash = crypto.createHash('md5').update(csvContent).digest('hex');
 
         let title = path.basename(csvFilePath, path.extname(csvFilePath));
 
