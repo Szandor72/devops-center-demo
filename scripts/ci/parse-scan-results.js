@@ -1,3 +1,4 @@
+// receives scan results from sfdx scanner in json format within GitHub Action context and handles them accordingly
 import execa from 'execa';
 import crypto from 'crypto';
 import { promises as fs } from 'fs';

@@ -1,4 +1,4 @@
-// Import necessary libraries
+// determines which files need to be treated as legacy files and scanned differently within GitHub Action context
 import execa from 'execa';
 import fsExtra from 'fs-extra';
 import path from 'path';
