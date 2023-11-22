@@ -65,7 +65,7 @@ async function createGithubTable(flattenedData) {
     });
 
     await core.summary
-        .addHeading('SF(DX) Scanner Results')
+        .addHeading('Legacy Code: SF(DX) Scanner Results')
         .addTable([headers, ...tableRows])
         .write();
 
@@ -100,9 +100,13 @@ async function processScanResults(jsonFilePath, csvFilePath) {
         const dataArray = JSON.parse(jsonData);
         const flattenedData = flattenJsonData(dataArray);
 
-        await convertJsonToCsv(flattenedData, csvFilePath);
-        await createGithubTable(flattenedData);
-        await createAnnotations(flattenedData);
+        // Check if 'legacy' is in the jsonFilePath
+        if (jsonFilePath.includes('legacy')) {
+            await convertJsonToCsv(flattenedData, csvFilePath);
+            await createGithubTable(flattenedData);
+        } else {
+            await createAnnotations(flattenedData);
+        }
     } catch (error) {
         console.error('Error processing scan results:', error);
     }
