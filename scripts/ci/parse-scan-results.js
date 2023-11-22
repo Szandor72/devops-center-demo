@@ -97,8 +97,33 @@ async function createGithubTable(jsonFilePath) {
     }
 }
 
+/**
+ * Creates annotations for each violation in the flattened JSON data.
+ * @param {Array} flattenedData - The array of flattened JSON objects.
+ */
+async function createAnnotations(jsonFilePath) {
+    const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
+    const dataArray = JSON.parse(jsonData);
+    const flattenedData = flattenJsonData(dataArray);
+
+    flattenedData.forEach(row => {
+        // Example: Using core.warning for each violation. Adjust based on your criteria.
+        core.error(row.message, {
+            title: row.ruleName,
+            file: row.fileName,
+            startLine: row.line,
+            endLine: row.endLine,
+            startColumn: row.column,
+            endColumn: row.endColumn,
+        });
+
+        // You can add conditions to decide whether to use notice, warning, or error.
+    });
+}
+
 const jsonFilePath = process.argv[2] || 'scan-results.json';
 const csvFilePath = process.argv[3] || 'scan-results.csv';
 
 convertJsonToCsv(jsonFilePath, csvFilePath);
 createGithubTable(jsonFilePath);
+createAnnotations(jsonFilePath);
