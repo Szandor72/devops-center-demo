@@ -92,20 +92,38 @@ async function createAnnotations(flattenedData) {
 }
 
 /**
+ * Extracts PR number from GitHub reference
+ * @param {string} githubRef
+ * @returns {string|null}
+ */
+function extractPrNumber(githubRef) {
+    const match = /refs\/pull\/(\d+)\/merge/.exec(githubRef);
+    return match ? match[1] : null;
+}
+
+/**
  * Will upload the CSV file to Salesforce as a ContentVersion record
  * Authentication is handled in github action yml file
  * @param {*} csvFilePath
  */
 async function uploadCsvToSalesforce(csvFilePath) {
     try {
-        // Read CSV file
+        const githubRef = process.env.GITHUB_REF;
+        const prNumber = extractPrNumber(githubRef);
+
+        if (!prNumber) {
+            throw new Error('Pull Request number not found');
+        }
+
         const csvContent = await fs.readFile(csvFilePath, 'utf8');
 
-        // Convert to Base64
-        const base64String = Buffer.from(csvContent).toString('base64');
+        const csvContentBase64 = Buffer.from(csvContent).toString('base64');
 
-        // Extracting the file name without the extension
-        const title = path.basename(csvFilePath, path.extname(csvFilePath));
+        const hash = crypto.createHash('md5').update(csvContent).digest('hex');
+
+        let title = path.basename(csvFilePath, path.extname(csvFilePath));
+
+        title = `${title}_PR${prNumber}_${hash}`;
 
         // Constructing the Salesforce CLI command
         const command = [
@@ -116,7 +134,7 @@ async function uploadCsvToSalesforce(csvFilePath) {
             '--sobject',
             'ContentVersion',
             '--values',
-            `Title='${title}' PathOnClient='${csvFilePath}' VersionData='${base64String}'`,
+            `Title='${title}' PathOnClient='${csvFilePath}' VersionData='${csvContentBase64}'`,
         ];
         // Execute the command
         const { stdout } = await execa(command[0], command.slice(1));
