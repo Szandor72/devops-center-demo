@@ -58,11 +58,32 @@ async function createGithubTable(jsonFilePath) {
         const dataArray = JSON.parse(jsonData);
         const flattenedData = flattenJsonData(dataArray);
 
-        // Generating headers from the keys of the first object in flattenedData
-        const headers = Object.keys(flattenedData[0]).map(key => ({ data: key, header: true }));
+        // Filtering out unwanted headers and transforming ruleName
+        const headers = Object.keys(flattenedData[0]).reduce(
+            (acc, key) => {
+                if (!['endLine', 'endColumn', 'url'].includes(key)) {
+                    acc.push({ data: key, header: true });
+                }
+                return acc;
+            },
+            [{ data: ':x:', header: true }],
+        ); // Adding extra column for red X
 
-        // Generating table rows from flattenedData
-        const tableRows = flattenedData.map(row => Object.values(row).map(cell => cell.toString()));
+        // Generating table rows
+        const tableRows = flattenedData.map(row => {
+            const rowValues = Object.entries(row).reduce(
+                (acc, [key, value]) => {
+                    if (key === 'ruleName') {
+                        acc.push(`[${value}](${row.url})`); // Transforming ruleName into a Markdown link
+                    } else if (!['endLine', 'endColumn', 'url'].includes(key)) {
+                        acc.push(value.toString());
+                    }
+                    return acc;
+                },
+                [':x:'],
+            ); // Adding red X in each row
+            return rowValues;
+        });
 
         // Creating the GitHub table
         await core.summary
