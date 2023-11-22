@@ -1,10 +1,9 @@
-// parse-results.js
 import { promises as fs } from 'fs';
 import { AsyncParser } from '@json2csv/node';
 import * as core from '@actions/core';
 
 /**
- * Flattens JSON data for CSV and Markdown conversion.
+ * Flattens JSON data for CSV, Markdown, and annotation processing.
  * @param {Array} dataArray - Array of data to flatten.
  * @returns {Array} Flattened data array.
  */
@@ -12,102 +11,70 @@ function flattenJsonData(dataArray) {
     let flattenedData = dataArray.flatMap(item =>
         item.violations.map(violation => ({
             engine: item.engine,
-            fileName: item.fileName,
+            fileName: item.fileName.substring(item.fileName.indexOf('force-app')),
             ...violation,
+            message: violation.message.trim(),
         })),
     );
-
-    for (const row of flattenedData) {
-        // message contains newlines
-        row.message = row.message.trim();
-        // fileNames needs to be trimmed, we need to cut off everything before 'force-app'
-        row.fileName = row.fileName.substring(row.fileName.indexOf('force-app'));
-    }
-
     return flattenedData;
 }
 
 /**
- * Converts JSON data to CSV format and writes it to a file.
- * @param {string} jsonFilePath - Path to the JSON file.
+ * Converts flattened JSON data to CSV format and writes it to a file.
+ * @param {Array} flattenedData - The array of flattened JSON objects.
  * @param {string} csvFilePath - Path to the output CSV file.
  */
-async function convertJsonToCsv(jsonFilePath, csvFilePath) {
-    try {
-        const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
-        const dataArray = JSON.parse(jsonData);
-        const flattenedData = flattenJsonData(dataArray);
-
-        const parser = new AsyncParser();
-        const csvData = await parser.parse(flattenedData).promise();
-
-        await fs.writeFile(csvFilePath, csvData);
-        console.log(`Converted ${jsonFilePath} to ${csvFilePath}`);
-    } catch (error) {
-        console.error('Error during CSV conversion:', error);
-    }
+async function convertJsonToCsv(flattenedData, csvFilePath) {
+    const parser = new AsyncParser();
+    const csvData = await parser.parse(flattenedData).promise();
+    await fs.writeFile(csvFilePath, csvData);
+    console.log(`Converted to CSV at ${csvFilePath}`);
 }
 
 /**
- * Creates a markdown table from JSON data and adds it to GitHub Step Summary.
- * @param {string} jsonFilePath - Path to the JSON file.
+ * Creates a GitHub Markdown table from flattened JSON data.
+ * @param {Array} flattenedData - The array of flattened JSON objects.
  */
-async function createGithubTable(jsonFilePath) {
-    try {
-        const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
-        const dataArray = JSON.parse(jsonData);
-        const flattenedData = flattenJsonData(dataArray);
+async function createGithubTable(flattenedData) {
+    const headers = Object.keys(flattenedData[0]).reduce(
+        (acc, key) => {
+            if (!['endLine', 'endColumn', 'url'].includes(key)) {
+                acc.push({ data: key, header: true });
+            }
+            return acc;
+        },
+        [{ data: ':x:', header: true }],
+    );
 
-        // Filtering out unwanted headers and transforming ruleName
-        const headers = Object.keys(flattenedData[0]).reduce(
-            (acc, key) => {
-                if (!['endLine', 'endColumn', 'url'].includes(key)) {
-                    acc.push({ data: key, header: true });
+    const tableRows = flattenedData.map(row => {
+        const rowValues = Object.entries(row).reduce(
+            (acc, [key, value]) => {
+                if (key === 'ruleName') {
+                    acc.push(`<a href='${row.url}'>${value}</a>`);
+                } else if (!['endLine', 'endColumn', 'url'].includes(key)) {
+                    acc.push(value.toString());
                 }
                 return acc;
             },
-            [{ data: ':x:', header: true }],
-        ); // Adding extra column for red X
+            [':x:'],
+        );
+        return rowValues;
+    });
 
-        // Generating table rows
-        const tableRows = flattenedData.map(row => {
-            const rowValues = Object.entries(row).reduce(
-                (acc, [key, value]) => {
-                    if (key === 'ruleName') {
-                        acc.push(`<a href='${row.url}'>${value}</a>`); // Transforming ruleName into anchor link
-                    } else if (!['endLine', 'endColumn', 'url'].includes(key)) {
-                        acc.push(value.toString());
-                    }
-                    return acc;
-                },
-                [':x:'],
-            ); // Adding red X in each row
-            return rowValues;
-        });
+    await core.summary
+        .addHeading('SF(DX) Scanner Results')
+        .addTable([headers, ...tableRows])
+        .write();
 
-        // Creating the GitHub table
-        await core.summary
-            .addHeading('SF(DX) Scanner Results')
-            .addTable([headers, ...tableRows])
-            .write();
-
-        console.log('GitHub table added to GitHub Step Summary');
-    } catch (error) {
-        console.error('Error during GitHub table creation:', error);
-    }
+    console.log('GitHub table added to GitHub Step Summary');
 }
 
 /**
  * Creates annotations for each violation in the flattened JSON data.
  * @param {Array} flattenedData - The array of flattened JSON objects.
  */
-async function createAnnotations(jsonFilePath) {
-    const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
-    const dataArray = JSON.parse(jsonData);
-    const flattenedData = flattenJsonData(dataArray);
-
+async function createAnnotations(flattenedData) {
     flattenedData.forEach(row => {
-        // Example: Using core.warning for each violation. Adjust based on your criteria.
         core.error(row.message, {
             title: row.ruleName,
             file: row.fileName,
@@ -116,14 +83,29 @@ async function createAnnotations(jsonFilePath) {
             startColumn: row.column,
             endColumn: row.endColumn,
         });
-
-        // You can add conditions to decide whether to use notice, warning, or error.
     });
+}
+
+/**
+ * Main function to process scan results.
+ * @param {string} jsonFilePath - Path to the JSON file.
+ * @param {string} csvFilePath - Path to the output CSV file.
+ */
+async function processScanResults(jsonFilePath, csvFilePath) {
+    try {
+        const jsonData = await fs.readFile(jsonFilePath, 'utf-8');
+        const dataArray = JSON.parse(jsonData);
+        const flattenedData = flattenJsonData(dataArray);
+
+        await convertJsonToCsv(flattenedData, csvFilePath);
+        await createGithubTable(flattenedData);
+        await createAnnotations(flattenedData);
+    } catch (error) {
+        console.error('Error processing scan results:', error);
+    }
 }
 
 const jsonFilePath = process.argv[2] || 'scan-results.json';
 const csvFilePath = process.argv[3] || 'scan-results.csv';
 
-convertJsonToCsv(jsonFilePath, csvFilePath);
-createGithubTable(jsonFilePath);
-createAnnotations(jsonFilePath);
+processScanResults(jsonFilePath, csvFilePath);
