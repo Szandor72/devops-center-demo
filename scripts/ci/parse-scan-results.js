@@ -38,7 +38,7 @@ async function convertJsonToCsv(flattenedData, csvFilePath) {
 async function createGithubTable(flattenedData) {
     const headers = Object.keys(flattenedData[0]).reduce(
         (acc, key) => {
-            if (!['endLine', 'endColumn', 'url'].includes(key)) {
+            if (!['endLine', 'endColumn', 'url', 'normalizedSeverity'].includes(key)) {
                 acc.push({ data: key, header: true });
             }
             return acc;
@@ -51,7 +51,10 @@ async function createGithubTable(flattenedData) {
             (acc, [key, value]) => {
                 if (key === 'ruleName') {
                     acc.push(`<a href='${row.url}'>${value}</a>`);
-                } else if (!['endLine', 'endColumn', 'url'].includes(key)) {
+                } else if (key === 'severity') {
+                    // Combine severity and normalizedSeverity
+                    acc.push(value.toString() + ' (' + row.normalizedSeverity.toString() + ')');
+                } else if (!['endLine', 'endColumn', 'url', 'normalizedSeverity'].includes(key)) {
                     acc.push(value.toString());
                 }
                 return acc;
