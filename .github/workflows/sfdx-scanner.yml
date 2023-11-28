@@ -1,12 +1,12 @@
-name: SF(DX) Scanner
+name: Code Scans with SF(DX) Scanner
 
 on:
     pull_request:
         types: [opened, synchronize, reopened]
         branches:
             - integration
-        # paths:
-        #     - 'force-app/**'
+        paths:
+            - 'force-app/**'
 
 jobs:
     sfdx-scanner:

@@ -13,7 +13,7 @@
         "test:unit:coverage": "sfdx-lwc-jest --coverage",
         "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\" --no-error-on-unmatched-pattern",
         "prettier:verify": "prettier --list-different \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\" --no-error-on-unmatched-pattern",
-        "postinstall": "node ./node_modules/devops-center-local-config-files/src/copyFiles.js && husky install",
+        "postinstall": "node ./node_modules/devops-center-local-config-files/src/copy-files.js && husky install",
         "precommit": "lint-staged"
     },
     "devDependencies": {
@@ -25,7 +25,7 @@
         "@salesforce/eslint-plugin-aura": "^2.0.0",
         "@salesforce/eslint-plugin-lightning": "^1.0.0",
         "@salesforce/sfdx-lwc-jest": "^1.1.0",
-        "devops-center-local-config-files": "^1.0.0",
+        "devops-center-local-config-files": "^1.1.1",
         "eslint": "^8.11.0",
         "eslint-plugin-import": "^2.25.4",
         "eslint-plugin-jest": "^26.1.2",

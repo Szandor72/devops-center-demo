@@ -1,4 +1,4 @@
-name: Quality Checks
+name: Custom Metadata Checks
 
 on:
     push:
