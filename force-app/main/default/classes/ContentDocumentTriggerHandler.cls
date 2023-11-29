@@ -1,3 +1,6 @@
+/**
+ * @description Handles legacy metadata scan file uploads from GitHub
+ */
 public with sharing class ContentDocumentTriggerHandler {
     /**
      * @description sends a notification for legacy scan file uploads
@@ -48,7 +51,8 @@ public with sharing class ContentDocumentTriggerHandler {
 
     /**
      * @description Filter ContentDocument sobjects by file extension and title
-     * @param contentDocuments list of ContentDocument sobjects
+     * @param contentDocuments list of ContentDocument sobjects to filter
+     * @return matchingContentDocuments
      */
     public static List<ContentDocument> filterContentDocuments(
         List<ContentDocument> contentDocuments
