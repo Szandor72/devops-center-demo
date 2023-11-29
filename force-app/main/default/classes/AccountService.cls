@@ -48,7 +48,7 @@ public class AccountService {
      * - This ApexDoc is incomplete and lacks parameter description
      * @return Decimal The calculated annual revenue
      */
-    public Decimal CalculateAnnualRevenue() {
+    public String CalculateAnnualRevenue() {
         // Lack of null checks and exception handling - bad practice
         Account acc = [SELECT Industry FROM Account WHERE Id = '001xx000003DGAZAA4'];
         return acc.Industry;
