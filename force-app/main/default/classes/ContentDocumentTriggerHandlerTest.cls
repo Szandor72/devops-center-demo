@@ -1,5 +1,5 @@
 /**
- * Test class for ContentDocumentTriggerHandler
+ * @description Test class for ContentDocumentTriggerHandler
  */
 @isTest
 private class ContentDocumentTriggerHandlerTest {
@@ -26,7 +26,7 @@ private class ContentDocumentTriggerHandlerTest {
         Test.startTest();
         String unexpectedExceptionMessage = '';
         try {
-            ContentDocumentTriggerHandler.handleLegacyCodeScanFileUploads(newContentDocumentMap);
+            ContentDocumentTriggerHandler.notifyOnLegacyCodeScanFileUploads(newContentDocumentMap);
         } catch (Exception e) {
             unexpectedExceptionMessage = e.getMessage();
         }
