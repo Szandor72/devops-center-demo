@@ -4,7 +4,7 @@
 @isTest
 private class ContentDocumentTriggerHandlerTest {
     /**
-     * Test method for handleLegacyCodeScanFileUploads
+     * @description Test method for handleLegacyCodeScanFileUploads
      */
     @isTest
     static void testHandleLegacyCodeScanFileUploads() {
