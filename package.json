@@ -2,6 +2,7 @@
     "name": "salesforce-app",
     "private": true,
     "version": "1.0.0",
+    "type": "module",
     "description": "Salesforce App",
     "scripts": {
         "lint": "eslint **/{aura,lwc}/** --no-error-on-unmatched-pattern",
