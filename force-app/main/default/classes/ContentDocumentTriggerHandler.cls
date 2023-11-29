@@ -1,9 +1,9 @@
 public with sharing class ContentDocumentTriggerHandler {
     /**
-     * sends a notification for legacy scan file uploads
-     * @param newContentDocumentMap
-     * @return void
+     * @description sends a notification for legacy scan file uploads
+     * @param newContentDocumentMap - received from trigger
      */
+    @SuppressWarnings('PMD.ApexCRUDViolation')
     public static void notifyOnLegacyCodeScanFileUploads(
         Map<Id, ContentDocument> newContentDocumentMap
     ) {
@@ -13,6 +13,7 @@ public with sharing class ContentDocumentTriggerHandler {
             return;
         }
 
+        //
         List<CustomNotificationType> notificationTypes = [
             SELECT Id, DeveloperName
             FROM CustomNotificationType
@@ -46,9 +47,8 @@ public with sharing class ContentDocumentTriggerHandler {
     }
 
     /**
-     * Filter ContentDocument sobjects by file extension and title
-     * @param ContentDocuments list of ContentDocument sobjects
-     * @return list of matching ContentDocument sobjects
+     * @description Filter ContentDocument sobjects by file extension and title
+     * @param contentDocuments list of ContentDocument sobjects
      */
     public static List<ContentDocument> filterContentDocuments(
         List<ContentDocument> contentDocuments
