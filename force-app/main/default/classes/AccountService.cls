@@ -11,7 +11,7 @@ public class AccountService {
     public Account getAccDetails(Id accountId) {
         // SOQL query inside a loop - bad practice
         for (Id accId : new List<Id>{ accountId }) {
-            Account acc = [SELECT Id, Name, Revenue__c FROM Account WHERE Id = :accId];
+            Account acc = [SELECT Id, Name, Industry FROM Account WHERE Id = :accId];
             return acc;
         }
         return null;
@@ -50,7 +50,7 @@ public class AccountService {
      */
     public Decimal CalculateAnnualRevenue() {
         // Lack of null checks and exception handling - bad practice
-        Account acc = [SELECT Revenue__c FROM Account WHERE Id = '001xx000003DGAZAA4'];
-        return acc.Revenue__c;
+        Account acc = [SELECT Industry FROM Account WHERE Id = '001xx000003DGAZAA4'];
+        return acc.Industry;
     }
 }
