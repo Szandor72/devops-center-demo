@@ -17,8 +17,8 @@ jobs:
 
             - name: 'Install Salesforce CLI'
               run: |
-                  npm install sfdx-cli --location=global
-                  sfdx --version
+                  npm install @salesforce/cli --location=global
+                  sf --version
 
             - name: 'Populate auth file with DEVHUB_SFDX_URL secret'
               run: |
@@ -26,9 +26,10 @@ jobs:
 
             - name: Authenticate against integration sandbox
               run:
-                  sfdx force:auth:sfdxurl:store -f ./INTEGRATION_SANDBOX_SFDX_URL.auth -d -a
-                  integration_sandbox
+                  sf org login sfdx-url --sfdx-url-file ./INTEGRATION_SANDBOX_SFDX_URL.auth
+                  --set-default --alias integration_sandbox
+
             - name: Validate deployment and run local tests
               run:
-                  sfdx force source deploy --sourcepath force-app --checkonly --wait 120
-                  --testlevel=RunLocalTests -u integration_sandbox
+                  sf project deploy validate --source-dir force-app --wait 120
+                  --test-level=RunLocalTests --ignore-conflicts -target-org integration_sandbox
