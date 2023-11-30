@@ -17,6 +17,16 @@ public class AccountService {
         return null;
     }
 
+    public Account getAccDetails2(Id accountId) {
+        // SOQL query inside a loop - bad practice
+        for (Id accId : new List<Id>{ accountId }) {
+            Account acc = [SELECT Id, Name, Industry FROM Account WHERE Id = :accId];
+            update acc;
+            return acc;
+        }
+        return null;
+    }
+
     // This method lacks ApexDocs
     public void UpdateAccount(List<Account> accounts) {
         // DML operation inside a loop - bad practice
