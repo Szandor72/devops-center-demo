@@ -11,12 +11,9 @@ public with sharing class ContentDocumentTriggerHandler {
         Map<Id, ContentDocument> newContentDocumentMap
     ) {
         Boolean isBulkOperation = newContentDocumentMap.values().size() > 1;
-
         if (isBulkOperation) {
             return;
         }
-
-        //
         List<CustomNotificationType> notificationTypes = [
             SELECT Id, DeveloperName
             FROM CustomNotificationType
