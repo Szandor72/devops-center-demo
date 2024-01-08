@@ -63,4 +63,11 @@ public class AccountService {
         Account acc = [SELECT Industry FROM Account WHERE Id = '001xx000003DGAZAA4'];
         return acc.Industry;
     }
+
+    // This method lacks ApexDocs
+    public List<Account> ListAccounts() {
+        // Not using bulkified approach - bad practice
+        List<Account> accounts = [SELECT Id, Name FROM Account LIMIT 1];
+        return accounts;
+    }
 }
