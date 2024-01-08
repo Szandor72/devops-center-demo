@@ -70,4 +70,11 @@ public class AccountService {
         List<Account> accounts = [SELECT Id, Name FROM Account LIMIT 1];
         return accounts;
     }
+
+    // This method lacks ApexDocs
+    public List<Account> ListAccounts3() {
+        // Not using bulkified approach - bad practice
+        List<Account> accounts = [SELECT Id, Name FROM Account LIMIT 1];
+        return accounts;
+    }
 }
