@@ -57,9 +57,8 @@ public with sharing class ContentDocumentTriggerHandler {
         List<ContentDocument> matchingContentDocuments = new List<ContentDocument>();
         for (ContentDocument uploadedFile : contentDocuments) {
             if (
-                uploadedFile.FileExtension == 'csv' &&
                 String.isNotBlank(uploadedFile.Title) &&
-                uploadedFile.Title.contains('legacy-scan-results')
+                uploadedFile.Title.contains('legacy-scan-results_')
             ) {
                 matchingContentDocuments.add(uploadedFile);
             }
