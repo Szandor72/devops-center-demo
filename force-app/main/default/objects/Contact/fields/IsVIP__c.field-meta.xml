@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>IsVIP__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>Indicates a VIP</description>
+    <description>Indicates a VIP.</description>
     <externalId>false</externalId>
     <label>VIP</label>
     <trackFeedHistory>false</trackFeedHistory>
