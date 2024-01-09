@@ -1,9 +1,12 @@
 name: Custom Metadata Checks
 
 on:
-    push:
+    pull_request:
+        types: [opened, synchronize, reopened]
         branches:
-            - '*'
+            - integration
+        paths:
+            - 'force-app/**'
 
 jobs:
     quality-checks:
