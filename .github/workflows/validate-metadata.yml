@@ -9,6 +9,6 @@ on:
             - 'force-app/**'
 
 jobs:
-    quality-checks:
-        name: 'Run Quality Checks'
+    validate-metadata:
+        name: 'Validate Metadata'
         uses: 'Szandor72/devops-center-actions/.github/workflows/validate-metadata.yml@main'
