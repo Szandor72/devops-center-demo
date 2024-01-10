@@ -11,4 +11,4 @@ on:
 jobs:
     quality-checks:
         name: 'Run Quality Checks'
-        uses: 'Szandor72/devops-center-actions/.github/workflows/quality-checks.yml@main'
+        uses: 'Szandor72/devops-center-actions/.github/workflows/validate-metadata.yml@main'
