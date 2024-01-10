@@ -1,48 +1,48 @@
 {
-  "name": "salesforce-app",
-  "private": true,
-  "version": "1.0.0",
-  "type": "module",
-  "description": "Salesforce App",
-  "scripts": {
-    "lint": "eslint **/{aura,lwc}/** --no-error-on-unmatched-pattern",
-    "test": "npm run test:unit",
-    "test:unit": "sfdx-lwc-jest -- --passWithNoTests",
-    "test:unit:watch": "sfdx-lwc-jest --watch",
-    "test:unit:debug": "sfdx-lwc-jest --debug",
-    "test:unit:coverage": "sfdx-lwc-jest --coverage",
-    "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\" --no-error-on-unmatched-pattern",
-    "prettier:verify": "prettier --list-different \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\" --no-error-on-unmatched-pattern",
-    "postinstall": "node ./node_modules/devops-center-local-config-files/src/copy-files.js && husky install",
-    "precommit": "lint-staged"
-  },
-  "devDependencies": {
-    "@actions/core": "^1.10.1",
-    "@json2csv/node": "^7.0.1",
-    "@lwc/eslint-plugin-lwc": "^1.1.2",
-    "@prettier/plugin-xml": "2.0.1",
-    "@salesforce/eslint-config-lwc": "^3.2.3",
-    "@salesforce/eslint-plugin-aura": "^2.0.0",
-    "@salesforce/eslint-plugin-lightning": "^1.0.0",
-    "@salesforce/sfdx-lwc-jest": "^1.1.0",
-    "devops-center-local-config-files": "^1.1.7",
-    "eslint": "^8.11.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^26.1.2",
-    "execa": "^5.1.1",
-    "fs-extra": "^10.0.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.7",
-    "pmd-bin": "^1.37.0",
-    "prettier": "2.6.0",
-    "prettier-plugin-apex": "1.10.0"
-  },
-  "lint-staged": {
-    "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
-      "prettier --write"
-    ],
-    "**/{aura,lwc}/**": [
-      "eslint"
-    ]
-  }
+    "name": "salesforce-app",
+    "private": true,
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Salesforce App",
+    "scripts": {
+        "lint": "eslint **/{aura,lwc}/** --no-error-on-unmatched-pattern",
+        "test": "npm run test:unit",
+        "test:unit": "sfdx-lwc-jest -- --passWithNoTests",
+        "test:unit:watch": "sfdx-lwc-jest --watch",
+        "test:unit:debug": "sfdx-lwc-jest --debug",
+        "test:unit:coverage": "sfdx-lwc-jest --coverage",
+        "prettier": "prettier --write \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\" --no-error-on-unmatched-pattern",
+        "prettier:verify": "prettier --list-different \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\" --no-error-on-unmatched-pattern",
+        "postinstall": "node ./node_modules/devops-center-local-config-files/src/copy-files.js && husky install",
+        "precommit": "lint-staged"
+    },
+    "devDependencies": {
+        "@actions/core": "^1.10.1",
+        "@json2csv/node": "^7.0.1",
+        "@lwc/eslint-plugin-lwc": "^1.1.2",
+        "@prettier/plugin-xml": "2.0.1",
+        "@salesforce/eslint-config-lwc": "^3.2.3",
+        "@salesforce/eslint-plugin-aura": "^2.0.0",
+        "@salesforce/eslint-plugin-lightning": "^1.0.0",
+        "@salesforce/sfdx-lwc-jest": "^1.1.0",
+        "devops-center-local-config-files": "^1.2.0",
+        "eslint": "^8.11.0",
+        "eslint-plugin-import": "^2.25.4",
+        "eslint-plugin-jest": "^26.1.2",
+        "execa": "^5.1.1",
+        "fs-extra": "^10.0.0",
+        "husky": "^7.0.4",
+        "lint-staged": "^12.3.7",
+        "pmd-bin": "^1.37.0",
+        "prettier": "2.6.0",
+        "prettier-plugin-apex": "1.10.0"
+    },
+    "lint-staged": {
+        "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
+            "prettier --write"
+        ],
+        "**/{aura,lwc}/**": [
+            "eslint"
+        ]
+    }
 }
