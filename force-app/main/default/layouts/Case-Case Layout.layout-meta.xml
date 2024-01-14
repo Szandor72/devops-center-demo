@@ -74,6 +74,10 @@
                 <behavior>Readonly</behavior>
                 <field>IsVIP__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ReturnTrue__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -1,0 +1,15 @@
+name: Code Scans with SFDX Scanner
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened]
+        branches:
+            - integration
+        paths:
+            - 'force-app/**'
+
+jobs:
+    sfdx-scanner:
+        name: 'Validate Code'
+        uses: 'Szandor72/devops-center-actions/.github/workflows/validate-code.yml@main'
+        secrets: inherit
