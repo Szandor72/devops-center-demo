@@ -1,0 +1,15 @@
+name: Validate Deployment
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened]
+        branches:
+            - integration
+        paths:
+            - 'force-app/**'
+
+jobs:
+    validate-deployment:
+        name: 'SFDX Scanner'
+        uses: 'Szandor72/devops-center-actions/.github/workflows/validate-deployment.yml@main'
+        secrets: inherit

@@ -1,0 +1,14 @@
+name: Custom Metadata Checks
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened]
+        branches:
+            - integration
+        paths:
+            - 'force-app/**'
+
+jobs:
+    validate-metadata:
+        name: 'Validate Metadata'
+        uses: 'Szandor72/devops-center-actions/.github/workflows/validate-metadata.yml@main'
