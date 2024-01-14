@@ -2,13 +2,13 @@
 
 ## What is this?
 
-This Demo Project has 2 dimensions:
+This Demo Project has 3 dimensions:
 
 1. It is a sample project to demonstrate how Salesforce DevOps Center can be used together with
    re-usable GitHub Actions and additional Salesforce tools to build a **loosely coupled **CI**
-   pipeline** with smart and automated Quality Gates.
-2. It shows that **App Builders don't need to use VS Code**, or any IDE, or the Command Line to get
-   the exact same benefits as Developers do.
+   pipeline** with automated Quality Gates.
+2. It acknowledges projects contain **legacy** (read: older, bad quality) **metadata** which should be scanned and reported but not block or confuse new development   
+3. It shows that **App Builders don't need to use VS Code**, or any IDE, or the Command Line to get the same benefits as Developers do.
 
 ## Loosely coupled how?
 
@@ -44,7 +44,7 @@ Three workflows are configured:
     - sObjects
     - Flows
     - Misc Metadata
-  - Modified files will be prettified (3rd Party Action)
+  - only new/modified files will be prettified (3rd Party Action)
 
 - **validate-code**
 
@@ -101,9 +101,10 @@ There are several repositories involved:
 - Create a fork of the template repository and use it as starting point in DevOps Center
 - Make sure to activate Actions, those aren't enabled by default when forking
 - Configure the Actions to use your own Orgs and Secrets
-- TODO add details which secrets need to be configured
-- TODO add details about branch setup (standard devops center setup)
+  - `${{ secrets.INTEGRATION_SANDBOX_SFDX_URL}}` will be used to do test deployments and CSV Scan Report File Upload
+- GitHub Action workflows are configured to run when a PR against `integration` branch is opened
+  - Please make sure the `integration` branch exists
 
 ## Todos
 
-- TODO figure out how to cache yarn plugins (SFDX Scanner)
+- figure out how to cache yarn plugins (SFDX Scanner) or wait for Scanner GH Action to be released
