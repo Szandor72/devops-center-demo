@@ -7,7 +7,7 @@ This Demo Project has 3 dimensions:
 1. It is a sample project to demonstrate how Salesforce DevOps Center can be used together with
    re-usable GitHub Actions and additional Salesforce tools to build a **loosely coupled **CI**
    pipeline** with automated Quality Gates.
-2. It acknowledges projects contain **legacy** (read: older, bad quality) **metadata** which should be scanned and reported but not block or confuse new development   
+2. It acknowledges projects contain **legacy** (read: older, bad quality) **metadata** which should be scanned and reported but not block or confuse new development
 3. It shows that **App Builders don't need to use VS Code**, or any IDE, or the Command Line to get the same benefits as Developers do.
 
 ## Loosely coupled how?
