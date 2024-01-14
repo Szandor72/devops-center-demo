@@ -10,26 +10,6 @@ on:
 
 jobs:
     validate-deployment:
-        name: 'Validate Deployment, run local Tests'
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-
-            - name: 'Install Salesforce CLI'
-              run: |
-                  npm install @salesforce/cli --location=global
-                  sf --version
-
-            - name: 'Populate auth file with DEVHUB_SFDX_URL secret'
-              run: |
-                  echo ${{ secrets.INTEGRATION_SANDBOX_SFDX_URL}} > ./INTEGRATION_SANDBOX_SFDX_URL.auth
-
-            - name: Authenticate against integration sandbox
-              run:
-                  sf org login sfdx-url --sfdx-url-file ./INTEGRATION_SANDBOX_SFDX_URL.auth
-                  --set-default --alias integration_sandbox
-
-            - name: Validate deployment and run local tests
-              run:
-                  sf project deploy validate --source-dir force-app --wait 120
-                  --test-level=RunLocalTests --target-org integration_sandbox
+        name: 'SFDX Scanner'
+        uses: 'Szandor72/devops-center-actions/.github/workflows/validate-deployment.yml@main'
+        secrets: inherit
