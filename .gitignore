@@ -206,6 +206,8 @@ deploy-options.json
 .prettierignore
 **/aura/.eslintrc.json
 **/lwc/.eslintrc.json
+jest.config.cjs
+.ci
 
 
 # LWC VS Code autocomplete
