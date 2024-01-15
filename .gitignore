@@ -133,10 +133,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Only apps should have lockfiles
-yarn.lock
-package-lock.json
-
 .npm
 .eslintcache
 coverage
@@ -210,6 +206,8 @@ deploy-options.json
 .prettierignore
 **/aura/.eslintrc.json
 **/lwc/.eslintrc.json
+jest.config.cjs
+.ci
 
 
 # LWC VS Code autocomplete
@@ -374,9 +372,6 @@ debug[-_]*
 *debug.*
 
 .forceignore.bac
-
-# Should be removed if DIA project starter pack with dia-scripts etc. not used
-!package-lock.json
 
 # Anonymous Apex playground files
 scripts/**/*playground*
