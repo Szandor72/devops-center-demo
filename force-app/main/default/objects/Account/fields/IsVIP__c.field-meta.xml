@@ -2,7 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>IsVIP__c</fullName>
     <defaultValue>false</defaultValue>
-    <description>VIP is if VIP contacts exist</description>
+    <description
+  >Account is a VIP if at least one VIP contact exist</description>
     <externalId>false</externalId>
     <label>VIP</label>
     <trackFeedHistory>false</trackFeedHistory>
