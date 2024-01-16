@@ -3,3 +3,4 @@
 force-app/main/default/objects/Contact/fields/Faulty_Url_Field__c.field-meta.xml
 force-app/main/default/flexipages/Custom_Contact_Record_Page.flexipage-meta.xml
 force-app/main/default/flows/UpdateVIPStatus.flow-meta.xml
+force-app/main/default/classes/AccountService.cls
