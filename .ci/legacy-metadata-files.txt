@@ -1,4 +1,4 @@
-# Add all files the should be treated as legacy files here, e.g.:
-# force-app\main\default\classes\ContentDocumentTriggerHandler.cls
-force-app\main\default\objects\Contact\fields\Faulty_Url_Field__c.field-meta.xml
-force-app\main\default\flexipages\Custom_Contact_Record_Page.flexipage-meta.xml
+# Add all files that should be treated as legacy files here, e.g.:
+# force-app/main/default/classes/ContentDocumentTriggerHandler.cls
+force-app/main/default/objects/Contact/fields/Faulty_Url_Field__c.field-meta.xml
+force-app/main/default/flexipages/Custom_Contact_Record_Page.flexipage-meta.xml
