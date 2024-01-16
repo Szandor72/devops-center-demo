@@ -208,6 +208,7 @@ deploy-options.json
 **/lwc/.eslintrc.json
 jest.config.cjs
 .ci
+package.xml
 
 
 # LWC VS Code autocomplete
