@@ -207,6 +207,7 @@ deploy-options.json
 **/aura/.eslintrc.json
 **/lwc/.eslintrc.json
 jest.config.cjs
+!.ci/legacy-metadata-files.txt
 .ci
 package.xml
 
