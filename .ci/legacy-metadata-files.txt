@@ -1,2 +1,2 @@
-force-app/main/default/classes/AccountService.cls
-force-app/main/default/classes/AccountService.cls-meta.xml
+# Add all files the should be treated as legacy files here, e.g.:
+# force-app\main\default\classes\ContentDocumentTriggerHandler.cls
