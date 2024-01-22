@@ -25,7 +25,7 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>GetAccounts</name>
+        <name>GetAccounts_GET</name>
         <label>GetAccounts</label>
         <locationX>176</locationX>
         <locationY>134</locationY>
@@ -38,7 +38,7 @@
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>GetAccounts</targetReference>
+            <targetReference>GetAccounts_GET</targetReference>
         </connector>
     </start>
     <status>Draft</status>
