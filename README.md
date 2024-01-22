@@ -101,7 +101,8 @@ There are several repositories involved:
 - Create a fork of the template repository and use it as starting point in DevOps Center
 - Make sure to activate Actions, those aren't enabled by default when forking
 - Configure the Actions to use your own Orgs and Secrets
-  - `${{ secrets.INTEGRATION_SANDBOX_SFDX_URL}}` will be used to do test deployments and CSV Scan Report File Upload
+  - `${{ secrets.PROD_DEVOPS_CENTER_HOME_SFDX_URL }}` will be used to query DevOps Center records and create a package.xml file to do deployment validation with exactly the same metadata as DevOps Center would use. **Note:** Deleted components are not validated.
+  - `${{ secrets.INTEGRATION_SANDBOX_SFDX_URL }}` will be used to do test deployments and CSV Scan Report File Upload
 - GitHub Action workflows are configured to run when a PR against `integration` branch is opened
   - Please make sure the `integration` branch exists
 
