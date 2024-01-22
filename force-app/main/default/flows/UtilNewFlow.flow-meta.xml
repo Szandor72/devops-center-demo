@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>60.0</apiVersion>
+    <description>Called to validate Accounts</description>
     <environments>Default</environments>
-    <interviewLabel>NewFlow {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>NewFlow</label>
+    <interviewLabel>UtilNewFlow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>UtilNewFlow</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -13,7 +14,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -26,24 +27,19 @@
     <recordLookups>
         <name>GetAccounts</name>
         <label>GetAccounts</label>
-        <locationX>728</locationX>
-        <locationY>182</locationY>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>null__NotFound</field>
-            <operator>EqualTo</operator>
-        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Account</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>602</locationX>
-        <locationY>48</locationY>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>GetAccounts</targetReference>
         </connector>
     </start>
-    <status>InvalidDraft</status>
+    <status>Draft</status>
 </Flow>
