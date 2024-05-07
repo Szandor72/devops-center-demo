@@ -2,7 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>NewCheckbox__c</fullName>
     <defaultValue>false</defaultValue>
+    <description>New Description</description>
     <externalId>false</externalId>
+    <inlineHelpText>New Description</inlineHelpText>
     <label>NewCheckbox</label>
     <type>Checkbox</type>
 </CustomField>
