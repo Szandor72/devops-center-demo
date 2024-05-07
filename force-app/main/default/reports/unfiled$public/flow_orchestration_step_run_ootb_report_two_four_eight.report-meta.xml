@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>FlowOrchestrationStepInstance$Name</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$Label</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$CreatedDate</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$CreatedBy</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$LastModifiedDate</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$LastModifiedBy</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$Status</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$OrchestrationInstance</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$StageInstance</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$Id</field>
+    </columns>
+    <columns>
+        <field>FlowOrchestrationStepInstance$StepType</field>
+    </columns>
+    <description>Welche Orchestrierungsschrittausführungen wurden erstellt und in welchem Status befinden sich die einzelnen Ausführungen aktuell?</description>
+    <format>Tabular</format>
+    <name>Beispielbericht: Orchestrierungsschritta</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>flow_orchestration_step_run_ootb_crt_two_four_eight__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>FlowOrchestrationStepInstance$LastModifiedDate</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>FlowOrchestrationStepInstance$CreatedDate</dateColumn>
+        <interval>INTERVAL_CURRENT</interval>
+    </timeFrameFilter>
+</Report>
